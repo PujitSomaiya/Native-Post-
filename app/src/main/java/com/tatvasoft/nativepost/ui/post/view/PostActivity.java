@@ -2,41 +2,34 @@ package com.tatvasoft.nativepost.ui.post.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.Toast;
 
 import com.tatvasoft.nativepost.R;
 import com.tatvasoft.nativepost.databinding.ActivityPostBinding;
 import com.tatvasoft.nativepost.interfaces.RequestApi;
 import com.tatvasoft.nativepost.netowrk.RetrofitClient;
 import com.tatvasoft.nativepost.ui.post.adapter.PostRecyclerAdapter;
+import com.tatvasoft.nativepost.ui.post.model.MainViewModel;
 import com.tatvasoft.nativepost.ui.post.model.PostResponseModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
-import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 
 public class PostActivity extends AppCompatActivity {
 
     private ActivityPostBinding binding;
-    CompositeDisposable compositeDisposable = new CompositeDisposable();
-    RequestApi requestApi;
-    private Observable<PostResponseModel> taskObservable;
-    private PostRecyclerAdapter adapter;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private MainViewModel mainViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,35 +41,22 @@ public class PostActivity extends AppCompatActivity {
     private void initControls() {
         initListeners();
         fetchData();
+        refreshLayout();
+    }
+
+    private void refreshLayout() {
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorAccent);
+        binding.swipeToRefresh.setOnRefreshListener(() -> {
+            fetchData();
+            binding.swipeToRefresh.setRefreshing(false);
+        });
     }
 
     private void fetchData() {
-        taskObservable= requestApi.getAllPost();
-                taskObservable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map((PostResponseModel postResponseModels) -> postResponseModels)
-                .subscribe(new Observer<PostResponseModel>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        compositeDisposable.add(d);
-                    }
-
-                    @Override
-                    public void onNext(PostResponseModel hitsItems) {
-                        displayData(getList(hitsItems));
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("TAG", "onError: "+e.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Log.d("TAG", "onComplete: called.");
-                    }
-                });
+        mainViewModel._userPostDetailsModelMutableLiveData.observe(this, postResponseModel -> displayData(getList(postResponseModel)));
+        mainViewModel._errorLiveData.observe(this, s -> Toast.makeText(getApplicationContext(),s,Toast.LENGTH_SHORT).show());
     }
+
 
     private List<PostResponseModel.HitsItem> getList(PostResponseModel postResponseModel){
         List<PostResponseModel.HitsItem> hitsItems=new ArrayList<>();
@@ -88,15 +68,15 @@ public class PostActivity extends AppCompatActivity {
 
 
     private void displayData(List<PostResponseModel.HitsItem> posts) {
-        adapter = new PostRecyclerAdapter(this, posts);
+        PostRecyclerAdapter adapter = new PostRecyclerAdapter(this, posts);
         binding.recyclerPosts.setAdapter(adapter);
     }
 
     private void initListeners() {
-        Retrofit retrofit = RetrofitClient.getInstance();
-        requestApi = retrofit.create(RequestApi.class);
         binding.recyclerPosts.setHasFixedSize(true);
         binding.recyclerPosts.setLayoutManager(new LinearLayoutManager(this));
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        mainViewModel.getPostData();
     }
 
     @Override
