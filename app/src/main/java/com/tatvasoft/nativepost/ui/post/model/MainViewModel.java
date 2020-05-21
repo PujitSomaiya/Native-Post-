@@ -29,66 +29,66 @@ public class MainViewModel extends AndroidViewModel {
         postRepository = new PostRepository(getApplication());
     }
 
-//    public void getPostData() {
-//        Observable<PostResponseModel> taskObservable = postRepository.getPostDetails();
-//        taskObservable.subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .map((PostResponseModel postResponseModels) -> postResponseModels)
-//                .subscribe(new Observer<PostResponseModel>() {
-//                    @Override
-//                    public void onSubscribe(Disposable d) {
-//                        compositeDisposable.add(d);
-//                    }
-//
-//                    @Override
-//                    public void onNext(PostResponseModel hitsItems) {
-//                        _userPostDetailsModelMutableLiveData.postValue(hitsItems);
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        Log.d("TAG", "onError: " + e.getMessage());
-//                        _errorLiveData.postValue(e.getMessage());
-//                    }
-//
-//                    @Override
-//                    public void onComplete() {
-//                        Log.d("TAG", "onComplete: called.");
-//                    }
-//                });
-//    }
+    public void getPostData() {
+        Observable<PostResponseModel> taskObservable = postRepository.getPostDetails();
+        taskObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map((PostResponseModel postResponseModels) -> postResponseModels)
+                .subscribe(new Observer<PostResponseModel>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        compositeDisposable.add(d);
+                    }
+
+                    @Override
+                    public void onNext(PostResponseModel hitsItems) {
+                        _userPostDetailsModelMutableLiveData.postValue(hitsItems);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("TAG", "onError: " + e.getMessage());
+                        _errorLiveData.postValue(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d("TAG", "onComplete: called.");
+                    }
+                });
+    }
 
 
-//    private void loadNextPage() {
-//        Retrofit retrofit = RetrofitClient.getInstance();
-//        RequestApi requestApi = retrofit.create(RequestApi.class);
-//        Observable<PostResponseModel> taskObservable = requestApi.getAllPost(2);
-//        taskObservable.subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .map((PostResponseModel postResponseModels) -> postResponseModels)
-//                .subscribe(new Observer<PostResponseModel>() {
-//                    @Override
-//                    public void onSubscribe(Disposable d) {
-//                        compositeDisposable.add(d);
-//                    }
-//
-//                    @Override
-//                    public void onNext(PostResponseModel hitsItems) {
-//                        _userPostDetailsModelMutableLiveData.postValue(hitsItems);
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        Log.d("TAG", "onError: " + e.getMessage());
-//                        _errorLiveData.postValue(e.getMessage());
-//                    }
-//
-//                    @Override
-//                    public void onComplete() {
-//                        Log.d("TAG", "onComplete: called.");
-//                    }
-//                });
-//    }
+    private void loadNextPage() {
+        Retrofit retrofit = RetrofitClient.getInstance();
+        RequestApi requestApi = retrofit.create(RequestApi.class);
+        Observable<PostResponseModel> taskObservable = requestApi.getAllPost(2);
+        taskObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map((PostResponseModel postResponseModels) -> postResponseModels)
+                .subscribe(new Observer<PostResponseModel>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        compositeDisposable.add(d);
+                    }
+
+                    @Override
+                    public void onNext(PostResponseModel hitsItems) {
+                        _userPostDetailsModelMutableLiveData.postValue(hitsItems);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("TAG", "onError: " + e.getMessage());
+                        _errorLiveData.postValue(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d("TAG", "onComplete: called.");
+                    }
+                });
+    }
 
 
 }

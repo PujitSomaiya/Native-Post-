@@ -13,10 +13,10 @@ public class PostRepository {
 
     }
 
-//   public Observable<PostResponseModel> getPostDetails() {
-//        Retrofit retrofit = RetrofitClient.getInstance();
-//        RequestApi requestApi = retrofit.create(RequestApi.class);
-//        return requestApi.getAllPost(1);
-//    }
+   public Observable<PostResponseModel> getPostDetails() {
+        Retrofit retrofit = RetrofitClient.getInstance();
+        RequestApi requestApi = retrofit.create(RequestApi.class);
+        return requestApi.getAllPost(1);
+    }
 
 }

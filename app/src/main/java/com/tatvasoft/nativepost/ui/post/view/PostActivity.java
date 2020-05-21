@@ -1,33 +1,23 @@
 package com.tatvasoft.nativepost.ui.post.view;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.content.ClipData;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import com.tatvasoft.nativepost.R;
 import com.tatvasoft.nativepost.databinding.ActivityPostBinding;
-import com.tatvasoft.nativepost.interfaces.RequestApi;
-import com.tatvasoft.nativepost.netowrk.RetrofitClient;
 import com.tatvasoft.nativepost.ui.post.adapter.PostRecyclerAdapter;
-import com.tatvasoft.nativepost.ui.post.model.ItemViewModel;
 import com.tatvasoft.nativepost.ui.post.model.MainViewModel;
 import com.tatvasoft.nativepost.ui.post.model.PostResponseModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
-import retrofit2.Retrofit;
 
 public class PostActivity extends AppCompatActivity {
 
@@ -57,8 +47,8 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void fetchData() {
-//        mainViewModel._userPostDetailsModelMutableLiveData.observe(this, postResponseModel -> displayData(getList(postResponseModel)));
-//        mainViewModel._errorLiveData.observe(this, s -> Toast.makeText(getApplicationContext(),s,Toast.LENGTH_SHORT).show());
+        mainViewModel._userPostDetailsModelMutableLiveData.observe(this, postResponseModel -> displayData(getList(postResponseModel)));
+        mainViewModel._errorLiveData.observe(this, s -> Toast.makeText(getApplicationContext(),s,Toast.LENGTH_SHORT).show());
     }
 
 
@@ -71,7 +61,7 @@ public class PostActivity extends AppCompatActivity {
     }
 
 
-    private void displayData(List<PostResponseModel> posts) {
+    private void displayData(List<PostResponseModel.HitsItem> posts) {
         PostRecyclerAdapter adapter = new PostRecyclerAdapter(this, posts);
         binding.recyclerPosts.setAdapter(adapter);
     }
@@ -80,15 +70,7 @@ public class PostActivity extends AppCompatActivity {
         binding.recyclerPosts.setHasFixedSize(true);
         binding.recyclerPosts.setLayoutManager(new LinearLayoutManager(this));
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-//        mainViewModel.getPostData();
-
-        ItemViewModel itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
-        itemViewModel.itemPagedList.observe(this, new Observer<PagedList<PostResponseModel>>() {
-            @Override
-            public void onChanged(PagedList<PostResponseModel> postResponseModels) {
-                displayData((postResponseModels));
-            }
-        });
+        mainViewModel.getPostData();
     }
 
     @Override

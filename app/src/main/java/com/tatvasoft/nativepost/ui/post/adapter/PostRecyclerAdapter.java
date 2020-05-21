@@ -23,9 +23,9 @@ import java.util.List;
 public class PostRecyclerAdapter extends RecyclerView.Adapter<PostViewHolder> {
 
     private Context context;
-    private List<PostResponseModel> postsList;
+    private List<PostResponseModel.HitsItem> postsList;
 
-    public PostRecyclerAdapter(Context context, List<PostResponseModel> postsList) {
+    public PostRecyclerAdapter(Context context, List<PostResponseModel.HitsItem> postsList) {
         this.context = context;
         this.postsList = postsList;
     }
@@ -40,11 +40,11 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostViewHolder> {
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
-        holder.tvCreated.setText("Created At: " + postsList.get(position).getHits().get(position).getCreatedAt());
-        holder.tvTitle.setText("Title: " + postsList.get(position).getHits().get(position).getTitle());
+        holder.tvCreated.setText("Created At: " + postsList.get(position).getCreatedAt());
+        holder.tvTitle.setText("Title: " + postsList.get(position).getTitle());
         holder.webPost.setWebViewClient(new WebViewClient());
-        holder.webPost.loadUrl(postsList.get(position).getHits().get(position).getUrl());
-        holder.tvAuthor.setText("Author: " + postsList.get(position).getHits().get(position).getAuthor());
+        holder.webPost.loadUrl(postsList.get(position).getUrl());
+        holder.tvAuthor.setText("Author: " + postsList.get(position).getAuthor());
     }
 
     @Override
