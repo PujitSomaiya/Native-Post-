@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.tatvasoft.nativepost.R;
@@ -19,11 +20,13 @@ import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-public class PostActivity extends AppCompatActivity {
+public class PostActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ActivityPostBinding binding;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private MainViewModel mainViewModel;
+    private int pageNumber=1;
+    private boolean isExit=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +50,7 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void fetchData() {
-        mainViewModel._userPostDetailsModelMutableLiveData.observe(this, postResponseModel -> displayData(getList(postResponseModel)));
+        mainViewModel._userPostDetailsModelMutableLiveData.observe(this, postResponseModel -> displayData(postResponseModel,getList(postResponseModel)));
         mainViewModel._errorLiveData.observe(this, s -> Toast.makeText(getApplicationContext(),s,Toast.LENGTH_SHORT).show());
     }
 
@@ -61,8 +64,8 @@ public class PostActivity extends AppCompatActivity {
     }
 
 
-    private void displayData(List<PostResponseModel.HitsItem> posts) {
-        PostRecyclerAdapter adapter = new PostRecyclerAdapter(this, posts);
+    private void displayData(PostResponseModel posts,List<PostResponseModel.HitsItem> postsHits) {
+        PostRecyclerAdapter adapter = new PostRecyclerAdapter(this, posts,postsHits);
         binding.recyclerPosts.setAdapter(adapter);
     }
 
@@ -70,7 +73,8 @@ public class PostActivity extends AppCompatActivity {
         binding.recyclerPosts.setHasFixedSize(true);
         binding.recyclerPosts.setLayoutManager(new LinearLayoutManager(this));
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        mainViewModel.getPostData();
+        mainViewModel.loadNextPage(pageNumber);
+        binding.btnNext.setOnClickListener(this);
     }
 
     @Override
@@ -80,4 +84,29 @@ public class PostActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(View view) {
+        if (view.getId()==R.id.btnNext){
+            pageNumber++;
+            mainViewModel.loadNextPage(pageNumber);
+            fetchData();
+            isExit=false;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (pageNumber==1){
+            if (isExit){
+                super.onBackPressed();
+            }
+            Toast.makeText(getApplicationContext(),"No back page",Toast.LENGTH_SHORT).show();
+            isExit=true;
+        }else {
+            pageNumber--;
+            mainViewModel.loadNextPage(pageNumber);
+            fetchData();
+            isExit=false;
+        }
+    }
 }

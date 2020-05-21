@@ -24,10 +24,12 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostViewHolder> {
 
     private Context context;
     private List<PostResponseModel.HitsItem> postsList;
+    private PostResponseModel post;
 
-    public PostRecyclerAdapter(Context context, List<PostResponseModel.HitsItem> postsList) {
+    public PostRecyclerAdapter(Context context, PostResponseModel post,List<PostResponseModel.HitsItem> postsList) {
         this.context = context;
         this.postsList = postsList;
+        this.post = post;
     }
     @NonNull
     @Override
@@ -40,6 +42,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostViewHolder> {
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
+        holder.tvPageNumber.setText("Page No.: " + post.getPage());
         holder.tvCreated.setText("Created At: " + postsList.get(position).getCreatedAt());
         holder.tvTitle.setText("Title: " + postsList.get(position).getTitle());
         holder.webPost.setWebViewClient(new WebViewClient());
@@ -55,7 +58,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostViewHolder> {
 }
 
 class PostViewHolder extends RecyclerView.ViewHolder {
-    TextView tvTitle, tvCreated, tvAuthor;
+    TextView tvTitle, tvCreated, tvAuthor,tvPageNumber;
     WebView webPost;
 
     PostViewHolder(@NonNull View itemView) {
@@ -64,5 +67,6 @@ class PostViewHolder extends RecyclerView.ViewHolder {
         tvCreated = itemView.findViewById(R.id.tvCreated);
         tvTitle = itemView.findViewById(R.id.tvTitle);
         tvAuthor = itemView.findViewById(R.id.tvAuthor);
+        tvPageNumber = itemView.findViewById(R.id.tvPageNumber);
     }
 }
