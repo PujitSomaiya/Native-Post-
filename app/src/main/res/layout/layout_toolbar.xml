@@ -1,0 +1,46 @@
+<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/appBarLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:fadingEdgeLength="@dimen/_20sdp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_anchor="@+id/appBarLayout"
+        app:layout_anchorGravity="center"
+        app:layout_collapseMode="none"
+        app:layout_scrollFlags="noScroll"
+        tools:ignore="RtlHardcoded">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textViewBlogBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@android:color/white"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/posts"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_30ssp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvCheckNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@android:color/white"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_15ssp" />
+    </androidx.appcompat.widget.Toolbar>
+</com.google.android.material.appbar.AppBarLayout>

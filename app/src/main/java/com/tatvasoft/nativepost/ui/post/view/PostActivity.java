@@ -1,16 +1,19 @@
 package com.tatvasoft.nativepost.ui.post.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tatvasoft.nativepost.R;
 import com.tatvasoft.nativepost.databinding.ActivityPostBinding;
+import com.tatvasoft.nativepost.interfaces.RecyclerInterface;
 import com.tatvasoft.nativepost.ui.post.adapter.PostRecyclerAdapter;
 import com.tatvasoft.nativepost.ui.post.model.MainViewModel;
 import com.tatvasoft.nativepost.ui.post.model.PostResponseModel;
@@ -20,13 +23,15 @@ import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-public class PostActivity extends AppCompatActivity implements View.OnClickListener {
+public class PostActivity extends AppCompatActivity implements View.OnClickListener, RecyclerInterface {
 
     private ActivityPostBinding binding;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private MainViewModel mainViewModel;
     private int pageNumber=1;
     private boolean isExit=false;
+    private Toolbar toolbar;
+    private TextView tvCheckNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +70,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void displayData(PostResponseModel posts,List<PostResponseModel.HitsItem> postsHits) {
-        PostRecyclerAdapter adapter = new PostRecyclerAdapter(this, posts,postsHits);
+        PostRecyclerAdapter adapter = new PostRecyclerAdapter(this, posts,postsHits,this);
         binding.recyclerPosts.setAdapter(adapter);
     }
 
@@ -75,6 +80,8 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         mainViewModel.loadNextPage(pageNumber);
         binding.btnNext.setOnClickListener(this);
+        toolbar=findViewById(R.id.toolbar);
+       tvCheckNumber=toolbar.findViewById(R.id.tvCheckNumber);
     }
 
     @Override
@@ -108,5 +115,12 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
             fetchData();
             isExit=false;
         }
+    }
+
+    @Override
+    public void onItemClick(int number) {
+
+            tvCheckNumber.setText(String.valueOf(number));
+
     }
 }

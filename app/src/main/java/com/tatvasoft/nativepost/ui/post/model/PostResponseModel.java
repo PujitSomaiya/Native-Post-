@@ -190,6 +190,7 @@ public class PostResponseModel{
 		@SerializedName("objectID")
 		private String objectID;
 
+
 		public Object getCommentText(){
 			return commentText;
 		}

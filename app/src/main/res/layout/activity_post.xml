@@ -5,6 +5,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <include
+            layout="@layout/layout_toolbar"
+            />
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeToRefresh"
             android:layout_width="0dp"
@@ -12,7 +16,7 @@
             app:layout_constraintBottom_toTopOf="@id/btnNext"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerPosts"
                 android:layout_width="0dp"
