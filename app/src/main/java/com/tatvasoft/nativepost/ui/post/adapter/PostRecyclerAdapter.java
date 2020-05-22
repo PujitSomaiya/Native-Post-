@@ -53,8 +53,6 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         holder.tvStoryId.setText("Story id: " + postsList.get(position).getObjectID());
         holder.tvCreated.setText("Created At: " + postsList.get(position).getCreatedAt());
         holder.tvTitle.setText("Title: " + postsList.get(position).getTitle());
-        holder.webPost.setWebViewClient(new WebViewClient());
-        holder.webPost.loadUrl(postsList.get(position).getUrl());
         holder.tvAuthor.setText("Author: " + postsList.get(position).getAuthor());
         holder.swActivation.setOnClickListener(view -> {
             if (holder.swActivation.isChecked()) {
@@ -84,19 +82,6 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             recyclerViewItemClick.onItemClick(checkNumber);
             return false;
         });
-        holder.webPost.setOnLongClickListener(view -> {
-            if (holder.chkSelected.isChecked()){
-                checkNumber--;
-                holder.chkSelected.setChecked(false);
-                holder.clMain.setBackgroundColor(res.getColor(R.color.colorWhite));
-            }else {
-                holder.chkSelected.setChecked(true);
-                checkNumber++;
-                holder.clMain.setBackgroundColor(res.getColor(R.color.design_default_color_error));
-            }
-            recyclerViewItemClick.onItemClick(checkNumber);
-            return false;
-        });
     }
 
     @Override
@@ -111,14 +96,12 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
     class PostViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvTitle, tvCreated, tvAuthor, tvPageNumber, tvStoryId;
         SwitchMaterial swActivation;
-        WebView webPost;
         MaterialCheckBox chkSelected;
         ConstraintLayout clMain;
 
 
         PostViewHolder(@NonNull View itemView) {
             super(itemView);
-            webPost = itemView.findViewById(R.id.webPost);
             tvCreated = itemView.findViewById(R.id.tvCreated);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvAuthor = itemView.findViewById(R.id.tvAuthor);
