@@ -6,17 +6,13 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-
-import com.tatvasoft.nativepost.interfaces.RequestApi;
-import com.tatvasoft.nativepost.netowrk.RetrofitClient;
-
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
+
 
 public class MainViewModel extends AndroidViewModel {
     public MutableLiveData<PostResponseModel> _userPostDetailsModelMutableLiveData = new MutableLiveData<>();
@@ -60,9 +56,7 @@ public class MainViewModel extends AndroidViewModel {
 
 
     public void loadNextPage(int pageNumber) {
-        Retrofit retrofit = RetrofitClient.getInstance();
-        RequestApi requestApi = retrofit.create(RequestApi.class);
-        Observable<PostResponseModel> taskObservable = requestApi.getAllPost(pageNumber);
+        Observable<PostResponseModel> taskObservable = postRepository.getPostDetails(pageNumber);
         taskObservable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map((PostResponseModel postResponseModels) -> postResponseModels)

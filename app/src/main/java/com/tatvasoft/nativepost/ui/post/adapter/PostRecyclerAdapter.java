@@ -2,6 +2,7 @@ package com.tatvasoft.nativepost.ui.post.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.checkbox.MaterialCheckBox;
@@ -42,9 +44,11 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         return new PostViewHolder(view);
     }
 
-    @SuppressLint("SetTextI18n")
+
+    @SuppressLint({"SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
+        Resources res = holder.itemView.getContext().getResources();
         holder.tvPageNumber.setText("Page No.: " + post.getPage());
         holder.tvStoryId.setText("Story id: " + postsList.get(position).getObjectID());
         holder.tvCreated.setText("Created At: " + postsList.get(position).getCreatedAt());
@@ -57,20 +61,41 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
                 postsList.remove(position);
                 notifyDataSetChanged();
                 holder.swActivation.setChecked(false);
+                if (holder.chkSelected.isChecked()){
+                    checkNumber--;
+                    holder.chkSelected.setChecked(false);
+                    recyclerViewItemClick.onItemClick(checkNumber);
+                    holder.clMain.setBackgroundColor(res.getColor(R.color.colorWhite));
+                }
                 Toast.makeText(context, "Post Disabled: " + postsList.get(position).getObjectID(), Toast.LENGTH_SHORT).show();
             }
         });
 
-        holder.chkSelected.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (holder.chkSelected.isChecked()){
-                    checkNumber++;
-                }else {
-                    checkNumber--;
-                }
-                recyclerViewItemClick.onItemClick(checkNumber);
+        holder.clMain.setOnLongClickListener(view -> {
+            if (holder.chkSelected.isChecked()){
+                checkNumber--;
+                holder.chkSelected.setChecked(false);
+                holder.clMain.setBackgroundColor(res.getColor(R.color.colorWhite));
+            }else {
+                holder.chkSelected.setChecked(true);
+                checkNumber++;
+                holder.clMain.setBackgroundColor(res.getColor(R.color.design_default_color_error));
             }
+            recyclerViewItemClick.onItemClick(checkNumber);
+            return false;
+        });
+        holder.webPost.setOnLongClickListener(view -> {
+            if (holder.chkSelected.isChecked()){
+                checkNumber--;
+                holder.chkSelected.setChecked(false);
+                holder.clMain.setBackgroundColor(res.getColor(R.color.colorWhite));
+            }else {
+                holder.chkSelected.setChecked(true);
+                checkNumber++;
+                holder.clMain.setBackgroundColor(res.getColor(R.color.design_default_color_error));
+            }
+            recyclerViewItemClick.onItemClick(checkNumber);
+            return false;
         });
     }
 
@@ -79,13 +104,16 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         return postsList.size();
     }
 
-
+    public void updateData( List<PostResponseModel.HitsItem> posts){
+        postsList.addAll(posts);
+    }
 
     class PostViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvTitle, tvCreated, tvAuthor, tvPageNumber, tvStoryId;
         SwitchMaterial swActivation;
         WebView webPost;
         MaterialCheckBox chkSelected;
+        ConstraintLayout clMain;
 
 
         PostViewHolder(@NonNull View itemView) {
@@ -96,6 +124,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             tvAuthor = itemView.findViewById(R.id.tvAuthor);
             tvStoryId = itemView.findViewById(R.id.tvStoryId);
             chkSelected = itemView.findViewById(R.id.chkSelected);
+            clMain = itemView.findViewById(R.id.clMain);
             tvPageNumber = itemView.findViewById(R.id.tvPageNumber);
             swActivation = itemView.findViewById(R.id.swActivation);
         }

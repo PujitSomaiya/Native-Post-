@@ -25,12 +25,23 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/swipeToRefresh"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNext"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
             android:text="@string/next"
             app:layout_constraintBottom_toBottomOf="parent"
             android:textSize="@dimen/_10ssp"

@@ -7,20 +7,38 @@
     android:background="@drawable/bg_box"
     android:padding="@dimen/_10sdp">
 
-    <WebView
-        android:id="@+id/webPost"
+    <LinearLayout
+        android:id="@+id/llWeb"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        android:padding="@dimen/_5sdp"
+        android:background="@drawable/bg_box"
         app:layout_constraintBottom_toTopOf="@+id/tvAuthor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle">
+
+        <WebView
+            android:id="@+id/webPost"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/chkSelected"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:clickable="false"
+        app:layout_constraintBottom_toTopOf="@id/llWeb"
+        app:layout_constraintEnd_toStartOf="@id/swActivation"
+        app:layout_constraintStart_toEndOf="@id/tvTitle"
+        app:layout_constraintTop_toBottomOf="@id/tvStoryId" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/swActivation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/webPost"
+        app:layout_constraintBottom_toTopOf="@+id/llWeb"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvStoryId" />
 
@@ -30,18 +48,11 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
         android:textSize="@dimen/_20ssp"
-        app:layout_constraintBottom_toTopOf="@id/webPost"
+        app:layout_constraintBottom_toTopOf="@id/llWeb"
         app:layout_constraintEnd_toStartOf="@+id/chkSelected"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvStoryId" />
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/chkSelected"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/webPost"
-        app:layout_constraintEnd_toStartOf="@id/swActivation"
-        app:layout_constraintStart_toEndOf="@id/tvTitle"
-        app:layout_constraintTop_toBottomOf="@id/tvStoryId" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvPageNumber"
         android:layout_width="0dp"
@@ -70,16 +81,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/webPost" />
+        app:layout_constraintTop_toBottomOf="@id/llWeb" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvStoryId"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="@dimen/_15ssp"
         android:textColor="@android:color/holo_red_dark"
-        app:layout_constraintTop_toBottomOf="@id/tvCreated"
-        />
+        android:textSize="@dimen/_15ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvCreated" />
 </androidx.constraintlayout.widget.ConstraintLayout>

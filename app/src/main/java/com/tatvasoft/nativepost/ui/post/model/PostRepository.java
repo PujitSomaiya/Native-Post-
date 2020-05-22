@@ -4,19 +4,20 @@ import android.app.Application;
 
 import com.tatvasoft.nativepost.interfaces.RequestApi;
 import com.tatvasoft.nativepost.netowrk.RetrofitClient;
+
 import io.reactivex.Observable;
 import retrofit2.Retrofit;
 
-public class PostRepository {
+class PostRepository {
 
     PostRepository(Application application) {
 
     }
 
-   public Observable<PostResponseModel> getPostDetails() {
+   Observable<PostResponseModel> getPostDetails(int pageNumber) {
         Retrofit retrofit = RetrofitClient.getInstance();
         RequestApi requestApi = retrofit.create(RequestApi.class);
-        return requestApi.getAllPost(1);
+        return requestApi.getAllPost(pageNumber);
     }
 
 }
