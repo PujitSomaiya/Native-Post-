@@ -72,7 +72,7 @@ dependencies {
         exclude group: "com.android.support"
     }
     annotationProcessor "com.github.bumptech.glide:compiler:4.9.0"
-
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
 
 
 

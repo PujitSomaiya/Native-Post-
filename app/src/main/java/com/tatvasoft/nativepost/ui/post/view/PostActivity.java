@@ -19,8 +19,9 @@ import com.tatvasoft.nativepost.R;
 import com.tatvasoft.nativepost.databinding.ActivityPostBinding;
 import com.tatvasoft.nativepost.interfaces.RecyclerInterface;
 import com.tatvasoft.nativepost.ui.post.adapter.PostRecyclerAdapter;
-import com.tatvasoft.nativepost.ui.post.model.MainViewModel;
+import com.tatvasoft.nativepost.ui.post.adapter.PostAdapter;
 import com.tatvasoft.nativepost.ui.post.model.PostResponseModel;
+import com.tatvasoft.nativepost.ui.post.datasource.PostViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -33,7 +34,6 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
 
     private ActivityPostBinding binding;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private MainViewModel mainViewModel;
     private int pageNumber = 1, pastVisiblesItems, visibleItemCount, totalItemCount;
     private boolean isExit = false;
     private TextView tvCheckNumber;
@@ -47,13 +47,25 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_post);
         initControls();
+
+        FetchDataa();
+
+
+    }
+
+    private void FetchDataa() {
+        final PostAdapter adapter = new PostAdapter(this,this);
+        binding.recyclerPosts.setLayoutManager(new LinearLayoutManager(this));
+        PostViewModel itemViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
+        itemViewModel.userPagedList.observe(this, adapter::submitList);
+        binding.recyclerPosts.setAdapter(adapter);
     }
 
     private void initControls() {
         initListeners();
-        fetchData();
+//        fetchData();
         refreshLayout();
-        endlessScroll();
+//        endlessScroll();
     }
 
     private void endlessScroll() {
@@ -68,8 +80,8 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
                     if (loading) {
                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             pageNumber++;
-                            mainViewModel.loadNextPage(pageNumber);
-                            mainViewModel._userPostDetailsModelMutableLiveData.observe((LifecycleOwner) mContext, postResponseModel -> adapter.updateData(getList(postResponseModel)));
+//                            mainViewModel.loadNextPage(pageNumber);
+//                            mainViewModel._userPostDetailsModelMutableLiveData.observe((LifecycleOwner) mContext, postResponseModel -> adapter.updateData(getList(postResponseModel)));
                         }
                     }
                 }
@@ -80,15 +92,16 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private void refreshLayout() {
         binding.swipeToRefresh.setColorSchemeResources(R.color.colorAccent);
         binding.swipeToRefresh.setOnRefreshListener(() -> {
-            fetchData();
+//            fetchData();
+            FetchDataa();
             onItemClick(0);
             binding.swipeToRefresh.setRefreshing(false);
         });
     }
 
     private void fetchData() {
-        mainViewModel._userPostDetailsModelMutableLiveData.observe(this, postResponseModel -> displayData(postResponseModel, getList(postResponseModel)));
-        mainViewModel._errorLiveData.observe(this, s -> Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show());
+//        mainViewModel._userPostDetailsModelMutableLiveData.observe(this, postResponseModel -> displayData(postResponseModel, getList(postResponseModel)));
+//        mainViewModel._errorLiveData.observe(this, s -> Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show());
     }
 
 
@@ -110,8 +123,8 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         binding.recyclerPosts.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(this);
         binding.recyclerPosts.setLayoutManager(linearLayoutManager);
-        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        mainViewModel.loadNextPage(pageNumber);
+//        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+//        mainViewModel.loadNextPage(pageNumber);
         binding.btnNext.setOnClickListener(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         tvCheckNumber = toolbar.findViewById(R.id.tvCheckNumber);
@@ -128,7 +141,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         if (view.getId() == R.id.btnNext) {
             pageNumber++;
-            mainViewModel.loadNextPage(pageNumber);
+//            mainViewModel.loadNextPage(pageNumber);
             fetchData();
             isExit = false;
         }
@@ -144,7 +157,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
             isExit = true;
         } else {
             pageNumber--;
-            mainViewModel.loadNextPage(pageNumber);
+//            mainViewModel.loadNextPage(pageNumber);
             fetchData();
             isExit = false;
         }

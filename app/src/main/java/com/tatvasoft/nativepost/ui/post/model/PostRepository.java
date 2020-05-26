@@ -14,10 +14,10 @@ class PostRepository {
 
     }
 
-   Observable<PostResponseModel> getPostDetails(int pageNumber) {
-        Retrofit retrofit = RetrofitClient.getInstance();
-        RequestApi requestApi = retrofit.create(RequestApi.class);
-        return requestApi.getAllPost(pageNumber);
-    }
+//   Observable<PostResponseModel> getPostDetails(int pageNumber) {
+//        Retrofit retrofit = RetrofitClient.getInstance();
+//        RequestApi requestApi = retrofit.create(RequestApi.class);
+//        return requestApi.getAllPost(pageNumber);
+//    }
 
 }
