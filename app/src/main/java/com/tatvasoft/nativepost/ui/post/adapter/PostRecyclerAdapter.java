@@ -6,8 +6,6 @@ import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,9 +23,9 @@ import java.util.List;
 public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapter.PostViewHolder> {
 
     private Context context;
+    private final  RecyclerInterface recyclerViewItemClick;
     private List<PostResponseModel.HitsItem> postsList;
     private PostResponseModel post;
-    private final  RecyclerInterface recyclerViewItemClick;
     private int checkNumber=0;
 
     public PostRecyclerAdapter(Context context, PostResponseModel post, List<PostResponseModel.HitsItem> postsList, RecyclerInterface recyclerViewItemClick) {

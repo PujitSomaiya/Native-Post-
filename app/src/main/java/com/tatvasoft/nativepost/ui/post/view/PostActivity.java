@@ -39,8 +39,8 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private TextView tvCheckNumber;
     private boolean loading = true;
     private LinearLayoutManager linearLayoutManager;
-    private  PostRecyclerAdapter adapter;
-    private Context mContext=this;
+    private PostRecyclerAdapter adapter;
+    private Context mContext = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +102,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void displayData(PostResponseModel posts, List<PostResponseModel.HitsItem> postsHits) {
-         adapter = new PostRecyclerAdapter(this, posts, postsHits, this);
+        adapter = new PostRecyclerAdapter(this, posts, postsHits, this);
         binding.recyclerPosts.setAdapter(adapter);
     }
 

@@ -12,7 +12,7 @@ public class RetrofitClient {
     public static Retrofit getInstance() {
         if (ourInstance == null)
             ourInstance = new Retrofit.Builder()
-                    .baseUrl("https://hn.algolia.com")
+                    .baseUrl("https://hn.algolia.com/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
