@@ -20,6 +20,7 @@ public class PostViewModel extends ViewModel {
                 .setEnablePlaceholders(false)
                 .setPageSize(PostDataSource.PAGE_SIZE)
                 .build();
+
         userPagedList = new LivePagedListBuilder<>(itemDataSourceFactory, config).build();
     }
 }

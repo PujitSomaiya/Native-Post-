@@ -142,6 +142,20 @@ public class PostResponseModel{
 
 	public static class HitsItem{
 
+		boolean isCheck;
+
+		public HitsItem(boolean isCheck) {
+			this.isCheck = isCheck;
+		}
+
+		public boolean isCheck() {
+			return isCheck;
+		}
+
+		public void setCheck(boolean check) {
+			isCheck = check;
+		}
+
 		@SerializedName("comment_text")
 		private Object commentText;
 

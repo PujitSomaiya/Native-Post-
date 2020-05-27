@@ -7,16 +7,6 @@
     android:background="@drawable/bg_box"
     android:padding="@dimen/_10sdp">
 
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/chkSelected"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:clickable="false"
-        app:layout_constraintBottom_toTopOf="@id/tvAuthor"
-        app:layout_constraintEnd_toStartOf="@id/swActivation"
-        app:layout_constraintStart_toEndOf="@id/tvTitle"
-        app:layout_constraintTop_toBottomOf="@id/tvStoryId" />
-
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/swActivation"
         android:layout_width="wrap_content"
@@ -32,7 +22,7 @@
         android:textColor="@android:color/black"
         android:textSize="@dimen/_20ssp"
         app:layout_constraintBottom_toTopOf="@id/tvAuthor"
-        app:layout_constraintEnd_toStartOf="@+id/chkSelected"
+        app:layout_constraintEnd_toStartOf="@+id/swActivation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvStoryId" />
 
